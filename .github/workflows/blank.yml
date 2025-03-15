@@ -1,0 +1,24 @@
+name: Run Google Colab Script Daily
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Har kuni ertalab 6:00 (UTC) da ishga tushadi
+  workflow_dispatch:  # Qo'lda ham ishga tushirish mumkin
+
+jobs:
+  run_colab:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: GitHub-dan skriptni yuklash
+      uses: actions/checkout@v4
+
+    - name: Python muhitini sozlash
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Google Colab skriptni ishga tushirish
+      run: |
+        pip install kaggle colab-cli
+        colab-cli run https://colab.research.google.com/github/your-github-username/your-repo/blob/main/your_script.ipynb
